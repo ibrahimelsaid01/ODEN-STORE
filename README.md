@@ -1,4 +1,4 @@
-# ODEN STORE
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153133" src="https://github.com/user-attachments/assets/0f5f65d3-ede1-4a23-bc6e-8afbdbfcb4f6" /># ODEN STORE
 
 
 
@@ -1009,8 +1009,31 @@ Sensitive values should be stored using:
 
 
 
-Project screenshots can be added to this section after repository setup.
+## Screenshots
 
+### Home Page
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153111" src="https://github.com/user-attachments/assets/2e6429f2-b94c-4dd0-883c-75262eed75ee" />
+
+### Product Catalog
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153254" src="https://github.com/user-attachments/assets/29c755d5-a3c1-4571-8056-ecc3edfae9cb" />
+
+### Customer Reviews
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153216" src="https://github.com/user-attachments/assets/6b525b5d-a988-4c28-b00b-9a6663b5d6db" />
+
+### Authentication
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153322" src="https://github.com/user-attachments/assets/5fc908c6-c104-4db8-b7e0-9d7137694ebb" />
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153313" src="https://github.com/user-attachments/assets/2836c789-967f-4cc8-9c21-1c00e8ff07c7" />
+
+### About us
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153305" src="https://github.com/user-attachments/assets/b1aae06d-8057-43a1-8f84-a91fceb65a56" />
+
+### Contact 
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153617" src="https://github.com/user-attachments/assets/772c80af-4b21-481f-9051-1eb953d4e9b6" />
 
 
 ### Home Page
