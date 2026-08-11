@@ -2,15 +2,6 @@
 
 
 
-!\[.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet\&logoColor=white)
-
-!\[C%23](https://img.shields.io/badge/C%23-CSharp-239120?logo=csharp\&logoColor=white)
-
-!\[Entity Framework Core](https://img.shields.io/badge/Entity%20Framework%20Core-10.0.10-512BD4)
-
-!\[SQL Server](https://img.shields.io/badge/SQL%20Server-Database-CC2927)
-
-!\[Bootstrap](https://img.shields.io/badge/Bootstrap-5.2.0-7952B3?logo=bootstrap\&logoColor=white)
 
 
 
