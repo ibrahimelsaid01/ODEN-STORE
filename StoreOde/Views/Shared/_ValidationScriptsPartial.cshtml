@@ -1,0 +1,17 @@
+﻿@*
+    Client-side jQuery unobtrusive validation is intentionally disabled
+    until the application's client-side dependency pipeline is restored.
+
+    The previous implementation referenced files under wwwroot/lib that
+    are not present in the project, causing failed static-file requests.
+
+    Server-side ASP.NET Core model validation remains authoritative.
+
+    When client-side unobtrusive validation is restored, use pinned,
+    compatible local versions of:
+        - jQuery
+        - jQuery Validation
+        - jQuery Validation Unobtrusive
+
+    Do not rely on this partial as a security boundary.
+*@

@@ -1,0 +1,525 @@
+﻿@model StoreOde.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+
+    var productDisplayName =
+        string.IsNullOrWhiteSpace(Model.Name)
+            ? $"Product #{Model.Id}"
+            : Model.Name.Trim();
+
+    var photo =
+        string.IsNullOrWhiteSpace(Model.Photo)
+            ? null
+            : Model.Photo.Trim();
+
+    var isLocalPhoto =
+        photo is not null &&
+        (
+            photo.StartsWith(
+                "/",
+                StringComparison.Ordinal)
+            ||
+            photo.StartsWith(
+                "~/",
+                StringComparison.Ordinal)
+        );
+
+    var localPhotoUrl =
+        isLocalPhoto
+            ? Url.Content(photo!)
+            : null;
+}
+
+<section class="section-bg py-5">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xl-9 col-lg-10">
+
+                <div class="d-flex
+                    flex-column
+                    flex-md-row
+                    justify-content-between
+                    align-items-md-center
+                    gap-3
+                    mb-4">
+
+                    <div>
+
+                        <h1 class="h2 mb-1"
+                            style="color: #341f97;">
+                            Edit Product
+                        </h1>
+
+                        <p class="text-muted mb-0">
+                            Update @productDisplayName.
+                        </p>
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <a asp-area=""
+                           asp-controller="Products"
+                           asp-action="Details"
+                           asp-route-id="@Model.Id"
+                           class="btn btn-outline-primary">
+
+                            <i class="bi bi-eye me-1"
+                               aria-hidden="true">
+                            </i>
+
+                            View Details
+
+                        </a>
+
+                        <a asp-area=""
+                           asp-controller="Products"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+
+                            <i class="bi bi-arrow-left me-1"
+                               aria-hidden="true">
+                            </i>
+
+                            Back to Products
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-white py-3">
+
+                        <div class="d-flex
+                            justify-content-between
+                            align-items-center">
+
+                            <span class="fw-semibold">
+                                Product Information
+                            </span>
+
+                            <span class="badge bg-secondary">
+                                ID: @Model.Id
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <form method="post"
+                              enctype="multipart/form-data"
+                              asp-area=""
+                              asp-controller="Products"
+                              asp-action="Edit"
+                              asp-route-id="@Model.Id">
+
+                            <input type="hidden"
+                                   asp-for="Id">
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger"
+                                 role="alert">
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-12">
+
+                                    <label asp-for="Name"
+                                           class="form-label fw-semibold">
+
+                                        Product Name
+
+                                        <span class="text-danger"
+                                              aria-hidden="true">
+                                            *
+                                        </span>
+
+                                    </label>
+
+                                    <input asp-for="Name"
+                                           class="form-control"
+                                           maxlength="@Product.NameMaxLength"
+                                           autocomplete="off"
+                                           placeholder="Enter product name"
+                                           required>
+
+                                    <span asp-validation-for="Name"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <label asp-for="Description"
+                                           class="form-label fw-semibold">
+                                        Description
+                                    </label>
+
+                                    <textarea asp-for="Description"
+                                              class="form-control"
+                                              rows="5"
+                                              maxlength="@Product.DescriptionMaxLength"
+                                              placeholder="Describe the product">
+                                    </textarea>
+
+                                    <span asp-validation-for="Description"
+                                          class="text-danger small">
+                                    </span>
+
+                                    <div class="form-text">
+                                        Maximum @Product.DescriptionMaxLength characters.
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Catid"
+                                           class="form-label fw-semibold">
+
+                                        Category
+
+                                        <span class="text-danger"
+                                              aria-hidden="true">
+                                            *
+                                        </span>
+
+                                    </label>
+
+                                    <select asp-for="Catid"
+                                            asp-items="ViewBag.Catid"
+                                            class="form-select"
+                                            required>
+
+                                        <option value="">
+                                            Select a category
+                                        </option>
+
+                                    </select>
+
+                                    <span asp-validation-for="Catid"
+                                          class="text-danger small">
+                                    </span>
+
+                                    @if (Model.Catid <= 0)
+                                    {
+                                        <div class="form-text text-warning">
+                                            This product does not currently have
+                                            a valid category. Select one before saving.
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Type"
+                                           class="form-label fw-semibold">
+                                        Product Type
+                                    </label>
+
+                                    <input asp-for="Type"
+                                           class="form-control"
+                                           maxlength="@Product.TypeMaxLength"
+                                           autocomplete="off"
+                                           placeholder="e.g. Shoes, T-Shirt, Jacket">
+
+                                    <span asp-validation-for="Type"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Price"
+                                           class="form-label fw-semibold">
+
+                                        Price
+
+                                        <span class="text-danger"
+                                              aria-hidden="true">
+                                            *
+                                        </span>
+
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input asp-for="Price"
+                                               type="number"
+                                               class="form-control"
+                                               min="0.01"
+                                               step="0.01"
+                                               inputmode="decimal"
+                                               required>
+
+                                        <span class="input-group-text">
+                                            EGP
+                                        </span>
+
+                                    </div>
+
+                                    <span asp-validation-for="Price"
+                                          class="text-danger small">
+                                    </span>
+
+                                    @if (Model.Price <= 0)
+                                    {
+                                        <div class="form-text text-warning">
+                                            This product does not currently have
+                                            a valid price. Enter one before saving.
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Priceafterdiscount"
+                                           class="form-label fw-semibold">
+                                        Discounted Price
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input asp-for="Priceafterdiscount"
+                                               type="number"
+                                               class="form-control"
+                                               min="0"
+                                               step="0.01"
+                                               inputmode="decimal"
+                                               placeholder="Optional">
+
+                                        <span class="input-group-text">
+                                            EGP
+                                        </span>
+
+                                    </div>
+
+                                    <span asp-validation-for="Priceafterdiscount"
+                                          class="text-danger small">
+                                    </span>
+
+                                    <div class="form-text">
+                                        Leave empty when the product has no discount.
+                                        The discounted price cannot be greater
+                                        than the original price.
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Quantity"
+                                           class="form-label fw-semibold">
+
+                                        Stock Quantity
+
+                                        <span class="text-danger"
+                                              aria-hidden="true">
+                                            *
+                                        </span>
+
+                                    </label>
+
+                                    <input asp-for="Quantity"
+                                           type="number"
+                                           class="form-control"
+                                           min="0"
+                                           step="1"
+                                           inputmode="numeric"
+                                           required>
+
+                                    <span asp-validation-for="Quantity"
+                                          class="text-danger small">
+                                    </span>
+
+                                    @if (Model.Quantity < 0)
+                                    {
+                                        <div class="form-text text-warning">
+                                            This product currently has an invalid
+                                            stock quantity. Enter 0 or a positive
+                                            quantity before saving.
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-text">
+                                            Use 0 when the product is currently
+                                            out of stock.
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="SupplierName"
+                                           class="form-label fw-semibold">
+                                        Supplier Name
+                                    </label>
+
+                                    <input asp-for="SupplierName"
+                                           class="form-control"
+                                           maxlength="@Product.SupplierNameMaxLength"
+                                           autocomplete="organization"
+                                           placeholder="Enter supplier name">
+
+                                    <span asp-validation-for="SupplierName"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <label for="ImageFile"
+                                           class="form-label fw-semibold">
+                                        Product Image
+                                    </label>
+
+                                    @if (localPhotoUrl is not null)
+                                    {
+                                        <div class="mb-3">
+
+                                            <div class="d-flex
+                                                align-items-center
+                                                justify-content-center
+                                                bg-light
+                                                rounded-3
+                                                p-3"
+                                                 style="min-height: 220px;">
+
+                                                <img src="@localPhotoUrl"
+                                                     alt="@productDisplayName"
+                                                     class="img-fluid"
+                                                     style="max-height: 200px; object-fit: contain;">
+
+                                            </div>
+
+                                            <div class="form-text mt-2">
+                                                Current product image.
+                                                Choose a new image below only
+                                                if you want to replace it.
+                                            </div>
+
+                                        </div>
+                                    }
+                                    else if (photo is not null)
+                                    {
+                                        <div class="alert alert-info py-2"
+                                             role="status">
+
+                                            This product has a legacy or external
+                                            image value. Upload a new image to
+                                            replace it with a managed product image.
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-text mb-2">
+                                            This product does not currently have
+                                            an image.
+                                        </div>
+                                    }
+
+                                    <input type="file"
+                                           id="ImageFile"
+                                           name="ImageFile"
+                                           class="form-control"
+                                           accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+
+                                    @Html.ValidationMessage(
+                                        "ImageFile",
+                                        null,
+                                        new
+                                        {
+                                            @class =
+                                                "text-danger small"
+                                        })
+
+                                    <div class="form-text">
+                                        Optional. Leave empty to keep the current
+                                        image. Accepted formats: JPG, JPEG, PNG,
+                                        and WEBP. Maximum file size: 5 MB.
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="ReviewUrl"
+                                           class="form-label fw-semibold">
+                                        Review URL
+                                    </label>
+
+                                    <input asp-for="ReviewUrl"
+                                           class="form-control"
+                                           maxlength="@Product.ReviewUrlMaxLength"
+                                           autocomplete="off"
+                                           placeholder="Optional review reference">
+
+                                    <span asp-validation-for="ReviewUrl"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex
+                                flex-column-reverse
+                                flex-sm-row
+                                justify-content-end
+                                gap-2">
+
+                                <a asp-area=""
+                                   asp-controller="Products"
+                                   asp-action="Index"
+                                   class="btn btn-outline-secondary px-4">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="btn text-white px-4"
+                                        style="background: #5f27cd;">
+
+                                    <i class="bi bi-check-lg me-1"
+                                       aria-hidden="true">
+                                    </i>
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

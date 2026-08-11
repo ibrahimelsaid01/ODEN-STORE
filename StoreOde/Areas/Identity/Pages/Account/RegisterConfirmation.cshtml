@@ -1,0 +1,127 @@
+﻿@page
+@model RegisterConfirmationModel
+
+@{
+    ViewData["Title"] = "Registration Confirmation";
+}
+
+<section style="margin-top: 100px; margin-bottom: 60px;">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xl-5 col-lg-6 col-md-8">
+
+                <div class="card
+                    shadow-lg
+                    border-0
+                    overflow-hidden"
+                     style="border-radius: 20px;">
+
+                    <div class="card-header
+                        text-white
+                        text-center
+                        border-0
+                        py-4"
+                         style="background: linear-gradient(135deg, #6f42c1 0%, #4e2a84 100%);">
+
+                        <div class="mb-3">
+
+                            <i class="bi bi-envelope-check"
+                               aria-hidden="true"
+                               style="font-size: 3rem;">
+                            </i>
+
+                        </div>
+
+                        <h1 class="h3 fw-bold mb-2">
+                            Check Your Email
+                        </h1>
+
+                        <p class="mb-0 opacity-75">
+                            Your account has been created successfully.
+                        </p>
+
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="text-center">
+
+                            <p class="mb-3">
+                                Check the email address you used during
+                                registration for a confirmation link.
+                            </p>
+
+                            <p class="text-muted mb-4">
+                                Open the confirmation link before signing
+                                in to your ODEN STORE account.
+                            </p>
+
+                            <div class="alert alert-light border text-start"
+                                 role="note">
+
+                                <div class="d-flex gap-2">
+
+                                    <i class="bi bi-info-circle-fill"
+                                       aria-hidden="true"
+                                       style="color: #6f42c1;">
+                                    </i>
+
+                                    <div class="small">
+
+                                        If the message hasn't arrived,
+                                        check your spam or junk folder.
+                                        You can also request another
+                                        confirmation email below.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <a asp-page="./Login"
+                               asp-route-returnUrl="@Model.ReturnUrl"
+                               class="btn
+                                btn-lg
+                                w-100
+                                text-white
+                                fw-semibold
+                                mt-3"
+                               style="background: #6f42c1;
+                                border: none;
+                                border-radius: 10px;">
+
+                                Go to Sign In
+
+                            </a>
+
+                            <hr class="my-4">
+
+                            <p class="small text-muted mb-2">
+                                Didn't receive the confirmation email?
+                            </p>
+
+                            <a asp-page="./ResendEmailConfirmation"
+                               class="text-decoration-none fw-semibold"
+                               style="color: #6f42c1;">
+
+                                Resend Confirmation Email
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

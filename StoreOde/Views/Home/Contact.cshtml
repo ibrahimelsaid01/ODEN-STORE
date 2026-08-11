@@ -1,0 +1,526 @@
+﻿@using StoreOde.ViewModels
+@model ContactFormViewModel
+
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact section-bg">
+
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title text-center">
+
+            <h2 style="text-transform: uppercase;
+                       font-weight: 700;
+                       color: #444;">
+                Contact
+            </h2>
+
+            <p style="font-style: italic;
+                      color: #777;">
+                Leave something about your opinion
+            </p>
+
+        </div>
+
+        <div class="row">
+
+            <!-- Address Box -->
+            <div class="col-lg-6">
+
+                <div class="info-box mb-4"
+                     style="padding: 30px;
+                            background: #fff;
+                            text-align: center;
+                            box-shadow: 0 0 30px rgba(95, 39, 205, 0.1);
+                            border-radius: 10px;
+                            transition: 0.3s;">
+
+                    <div class="icon-wrapper"
+                         style="display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin-bottom: 20px;">
+
+                        <div style="width: 70px;
+                                    height: 70px;
+                                    background: rgba(95, 39, 205, 0.1);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    border: 1px solid rgba(95, 39, 205, 0.2);
+                                    transition: 0.3s;">
+
+                            <i class="bx bx-map-pin"
+                               style="font-size: 34px;
+                                      color: #5f27cd;">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                    <h3 style="font-size: 20px;
+                               font-weight: 700;
+                               margin: 0 0 10px 0;
+                               color: #333;">
+                        Our Address
+                    </h3>
+
+                    <p style="padding: 0;
+                              line-height: 24px;
+                              font-size: 14px;
+                              color: #666;
+                              margin-bottom: 0;">
+
+                        شارع الجيش، المنصورة (قسم 2)،
+                        اول المنصورة، الدقهلية 35573
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Email Box -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="info-box mb-4"
+                     style="padding: 30px;
+                            background: #fff;
+                            text-align: center;
+                            box-shadow: 0 0 30px rgba(95, 39, 205, 0.1);
+                            border-radius: 10px;
+                            transition: 0.3s;">
+
+                    <div class="icon-wrapper"
+                         style="display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin-bottom: 20px;">
+
+                        <div style="width: 70px;
+                                    height: 70px;
+                                    background: rgba(95, 39, 205, 0.1);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    border: 1px solid rgba(95, 39, 205, 0.2);
+                                    transition: 0.3s;">
+
+                            <i class="bx bx-envelope-open"
+                               style="font-size: 34px;
+                                      color: #5f27cd;">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                    <h3 style="font-size: 20px;
+                               font-weight: 700;
+                               margin: 0 0 10px 0;
+                               color: #333;">
+                        Email Us
+                    </h3>
+
+                    <p style="padding: 0;
+                              line-height: 24px;
+                              font-size: 14px;
+                              margin-bottom: 0;">
+
+                        <a href="mailto:odenstore@gmail.com"
+                           style="color: #666;
+                                  text-decoration: none;
+                                  transition: 0.3s;">
+
+                            odenstore@gmail.com
+
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Call Box -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="info-box mb-4"
+                     style="padding: 30px;
+                            background: #fff;
+                            text-align: center;
+                            box-shadow: 0 0 30px rgba(95, 39, 205, 0.1);
+                            border-radius: 10px;
+                            transition: 0.3s;">
+
+                    <div class="icon-wrapper"
+                         style="display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin-bottom: 20px;">
+
+                        <div style="width: 70px;
+                                    height: 70px;
+                                    background: rgba(95, 39, 205, 0.1);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    border: 1px solid rgba(95, 39, 205, 0.2);
+                                    transition: 0.3s;">
+
+                            <i class="bx bx-phone-call"
+                               style="font-size: 34px;
+                                      color: #5f27cd;">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                    <h3 style="font-size: 20px;
+                               font-weight: 700;
+                               margin: 0 0 10px 0;
+                               color: #333;">
+                        Call Us
+                    </h3>
+
+                    <p style="padding: 0;
+                              line-height: 24px;
+                              font-size: 14px;
+                              margin-bottom: 0;">
+
+                        <a href="tel:+201090753929"
+                           style="color: #666;
+                                  text-decoration: none;
+                                  transition: 0.3s;">
+
+                            +20 109 075 3929
+
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <!-- Google Map -->
+            <div class="col-lg-6">
+
+                <iframe class="mb-4 mb-lg-0"
+                        title="ODEN STORE location map"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d427.3340345853608!2d31.393934731253733!3d31.035379180423607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1e86074b651b494e!2z2LPYqtin2K8g2KfZhNmF2YbYtdmI2LHYqSDYp9mE2LHZitin2LbZig!5e0!3m2!1sar!2seg!4v1662784950398!5m2!1sar!2seg"
+                        frameborder="0"
+                        style="border: 0;
+                               width: 100%;
+                               height: 384px;
+                               box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);"
+                        allowfullscreen
+                        loading="lazy">
+                </iframe>
+
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-6">
+
+                <form asp-controller="Home"
+                      asp-action="Savecontact"
+                      method="post"
+                      role="form"
+                      id="contact-form"
+                      style="background: #fff;
+                             padding: 30px;
+                             box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);">
+
+                    <div class="row">
+
+                        <div class="col-md-6 form-group">
+
+                            <input asp-for="Name"
+                                   type="text"
+                                   class="form-control"
+                                   id="name"
+                                   placeholder="Your Name"
+                                   autocomplete="name"
+                                   maxlength="@ContactFormViewModel.NameMaxLength"
+                                   required
+                                   style="border-radius: 0;
+                                          box-shadow: none;
+                                          font-size: 14px;
+                                          height: 44px;">
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+
+                            <input asp-for="Email"
+                                   type="email"
+                                   class="form-control"
+                                   id="email"
+                                   placeholder="Your Email"
+                                   autocomplete="email"
+                                   inputmode="email"
+                                   maxlength="@ContactFormViewModel.EmailMaxLength"
+                                   required
+                                   style="border-radius: 0;
+                                          box-shadow: none;
+                                          font-size: 14px;
+                                          height: 44px;">
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <input asp-for="Subject"
+                               type="text"
+                               class="form-control"
+                               id="subject"
+                               placeholder="Subject"
+                               maxlength="@ContactFormViewModel.SubjectMaxLength"
+                               required
+                               style="border-radius: 0;
+                                      box-shadow: none;
+                                      font-size: 14px;
+                                      height: 44px;">
+
+                        <span asp-validation-for="Subject"
+                              class="text-danger small">
+                        </span>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <textarea asp-for="Message"
+                                  class="form-control"
+                                  id="message"
+                                  rows="5"
+                                  placeholder="Message"
+                                  maxlength="@ContactFormViewModel.MessageMaxLength"
+                                  required
+                                  style="border-radius: 0;
+                                         box-shadow: none;
+                                         font-size: 14px;
+                                         padding: 10px 12px;"></textarea>
+
+                        <span asp-validation-for="Message"
+                              class="text-danger small">
+                        </span>
+
+                    </div>
+
+                    <div id="contact-loading"
+                         class="d-none text-center mt-3"
+                         role="status"
+                         style="color: #666;">
+
+                        Sending...
+
+                    </div>
+
+                    <div id="contact-error"
+                         class="d-none text-center mt-3"
+                         role="alert"
+                         style="color: #dc3545;">
+                    </div>
+
+                    <div id="contact-success"
+                         class="d-none text-center mt-3"
+                         role="status"
+                         style="color: #198754;">
+
+                        Your message has been sent. Thank you!
+
+                    </div>
+
+                    <div class="text-center mt-4">
+
+                        <button type="submit"
+                                id="contact-submit"
+                                style="background: #5f27cd;
+                                       border: 0;
+                                       padding: 10px 30px;
+                                       color: #fff;
+                                       transition: 0.4s;
+                                       border-radius: 4px;
+                                       cursor: pointer;">
+
+                            Send Message
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- End Contact Section -->
+
+@section Scripts
+{
+    <script>
+        (() => {
+            "use strict";
+
+            const form =
+                document.getElementById("contact-form");
+
+            if (!form) {
+                return;
+            }
+
+            const submitButton =
+                document.getElementById("contact-submit");
+
+            const loadingMessage =
+                document.getElementById("contact-loading");
+
+            const errorMessage =
+                document.getElementById("contact-error");
+
+            const successMessage =
+                document.getElementById("contact-success");
+
+            form.addEventListener(
+                "submit",
+                async event => {
+                    event.preventDefault();
+
+                    /*
+                     * Clear messages from the previous submission
+                     * before validating the new attempt.
+                     */
+                    resetMessages();
+
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+
+                    setSubmittingState(true);
+
+                    try {
+                        const response =
+                            await fetch(
+                                form.action,
+                                {
+                                    method: "POST",
+
+                                    body:
+                                        new FormData(form),
+
+                                    headers: {
+                                        "X-Requested-With":
+                                            "XMLHttpRequest"
+                                    }
+                                });
+
+                        const responseText =
+                            (await response.text()).trim();
+
+                        if (!response.ok) {
+                            throw new Error(
+                                responseText ||
+                                "We could not send your message right now."
+                            );
+                        }
+
+                        if (responseText !== "OK") {
+                            throw new Error(
+                                "The server returned an unexpected response."
+                            );
+                        }
+
+                        form.reset();
+
+                        successMessage.classList.remove(
+                            "d-none"
+                        );
+                    }
+                    catch (error) {
+                        errorMessage.textContent =
+                            error instanceof Error &&
+                            error.message
+                                ? error.message
+                                : "We could not send your message right now.";
+
+                        errorMessage.classList.remove(
+                            "d-none"
+                        );
+                    }
+                    finally {
+                        setSubmittingState(false);
+                    }
+                });
+
+            function resetMessages() {
+                loadingMessage.classList.add(
+                    "d-none"
+                );
+
+                errorMessage.classList.add(
+                    "d-none"
+                );
+
+                successMessage.classList.add(
+                    "d-none"
+                );
+
+                errorMessage.textContent = "";
+            }
+
+            function setSubmittingState(
+                isSubmitting) {
+
+                submitButton.disabled =
+                    isSubmitting;
+
+                if (isSubmitting) {
+                    loadingMessage.classList.remove(
+                        "d-none"
+                    );
+
+                    submitButton.textContent =
+                        "Sending...";
+
+                    return;
+                }
+
+                loadingMessage.classList.add(
+                    "d-none"
+                );
+
+                submitButton.textContent =
+                    "Send Message";
+            }
+        })();
+    </script>
+}

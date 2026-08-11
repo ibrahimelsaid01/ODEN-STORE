@@ -1,0 +1,816 @@
+﻿@model IReadOnlyList<StoreOde.Models.Category>
+
+@{
+    ViewData["Title"] = "Home";
+
+    var reviews =
+        ViewBag.Reviews is IEnumerable<Review> reviewItems
+            ? reviewItems
+            : Enumerable.Empty<Review>();
+
+    var reviewSuccessMessage =
+        TempData["ReviewSuccessMessage"]?.ToString();
+
+    var reviewErrorMessage =
+        TempData["ReviewErrorMessage"]?.ToString();
+}
+
+<section id="services"
+         class="section-bg py-5"
+         style="scroll-margin-top: 90px;">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="section-title text-center"
+             style="margin-bottom: 30px;">
+
+            <h2 style="margin-bottom: 10px;">
+                BRANDS
+            </h2>
+
+            <p class="mb-0">
+                Select your favorite brand
+            </p>
+
+        </div>
+
+        @if (Model.Count > 0)
+        {
+            <div class="row gy-4">
+
+                @foreach (var category in Model)
+                {
+                    var categoryName =
+                        string.IsNullOrWhiteSpace(category.Name)
+                            ? "Unnamed Brand"
+                            : category.Name.Trim();
+
+                    var description =
+                        string.IsNullOrWhiteSpace(category.Description)
+                            ? null
+                            : category.Description.Trim();
+
+                    var iconClass =
+                        string.IsNullOrWhiteSpace(category.IconClass)
+                            ? "bi bi-tag"
+                            : category.IconClass.Trim();
+
+                    var logoUrl =
+                        categoryName switch
+                        {
+                            "Nike" =>
+                                "https://cdn.simpleicons.org/nike/47AEFF?viewbox=auto",
+
+                            "Adidas" =>
+                                "https://cdn.simpleicons.org/adidas/47AEFF?viewbox=auto",
+
+                            "Puma" =>
+                                "https://cdn.simpleicons.org/puma/47AEFF?viewbox=auto",
+
+                            "Reebok" =>
+                                "https://cdn.simpleicons.org/reebok/47AEFF?viewbox=auto",
+
+                            "Under Armour" =>
+                                "https://cdn.simpleicons.org/underarmour/47AEFF?viewbox=auto",
+
+                            "New Balance" =>
+                                "https://cdn.simpleicons.org/newbalance/47AEFF?viewbox=auto",
+
+                            "Champion" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Champion_USA_logo.svg",
+
+                            "Fila" =>
+                                "https://cdn.simpleicons.org/fila/47AEFF?viewbox=auto",
+
+                            "Asics" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Asics_Logo.svg",
+
+                            "Lotto" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Lotto_Sport_Italia_logo.svg",
+
+                            "Umbro" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Umbro_logo_%28current%29.svg",
+
+                            "Diadora" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Diadora_logo.svg",
+
+                            "Kappa" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Kappa_logo.svg",
+
+                            "Columbia" =>
+                                "https://commons.wikimedia.org/wiki/Special:Redirect/file/Columbia_Sportswear_Co_logo.svg",
+
+                            "The North Face" =>
+                                "https://cdn.simpleicons.org/thenorthface/47AEFF?viewbox=auto",
+
+                            _ =>
+                                null
+                        };
+
+                    <div class="col-lg-4
+                        col-md-6
+                        d-flex
+                        align-items-stretch"
+                         data-aos="zoom-in"
+                         data-aos-delay="100">
+
+                        <div class="icon-box
+                            iconbox-blue
+                            w-100
+                            bg-white
+                            text-center
+                            shadow-sm"
+                             style="
+                            min-height: 280px;
+                            padding: 45px 30px;
+                            border-radius: 0;
+                            transition:
+                            transform 0.25s ease,
+                            box-shadow 0.25s ease;
+                            ">
+
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="Products"
+                               asp-route-catId="@category.Id"
+                               class="text-decoration-none"
+                               aria-label="View @categoryName products">
+
+                                <div class="icon
+                                    mx-auto
+                                    mb-4
+                                    position-relative
+                                    d-flex
+                                    justify-content-center
+                                    align-items-center"
+                                     style="
+                                    width: 110px;
+                                    height: 100px;
+                                    cursor: pointer;
+                                    ">
+
+                                    <svg width="100"
+                                         height="100"
+                                         viewBox="0 0 600 600"
+                                         focusable="false"
+                                         aria-hidden="true"
+                                         class="position-absolute
+                                        top-0
+                                        start-50
+                                        translate-middle-x">
+
+                                        <path fill="#f5f5f5"
+                                              d="M300,521C376,518 466,530 511,468C554,408 508,329 491,256C474,184 480,97 416,59C349,19 262,41 194,79C130,114 98,180 77,249C52,329 14,422 67,486C119,550 217,524 300,521Z" />
+
+                                    </svg>
+
+                                    @if (logoUrl is not null)
+                                    {
+                                        <img src="@logoUrl"
+                                             alt=""
+                                             aria-hidden="true"
+                                             loading="lazy"
+                                             style="
+                                        position: relative;
+                                        z-index: 2;
+                                        width: 65px;
+                                        height: 50px;
+                                        object-fit: contain;
+                                        ">
+                                    }
+                                    else
+                                    {
+                                        <i class="@iconClass"
+                                           aria-hidden="true"
+                                           style="
+                                            position: relative;
+                                            z-index: 2;
+                                            font-size: 2rem;
+                                            color: #47aeff;
+                                            ">
+                                        </i>
+                                    }
+
+                                </div>
+
+                            </a>
+
+                            <h4 class="mb-3">
+
+                                <a asp-area=""
+                                   asp-controller="Home"
+                                   asp-action="Products"
+                                   asp-route-catId="@category.Id"
+                                   class="text-decoration-none"
+                                   style="
+                                    color: #124265;
+                                    font-weight: 700;
+                                    ">
+
+                                    @categoryName
+
+                                </a>
+
+                            </h4>
+
+                            @if (description is not null)
+                            {
+                                <p class="text-muted mb-0"
+                                   style="
+                                    line-height: 1.7;
+                                    font-size: 0.95rem;
+                                    ">
+
+                                    @description
+
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="text-muted mb-0"
+                                   style="
+                                    line-height: 1.7;
+                                    font-size: 0.95rem;
+                                    ">
+
+                                    Explore @categoryName products
+
+                                </p>
+                            }
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+
+                <i class="bi bi-tags"
+                   aria-hidden="true"
+                   style="
+                    font-size: 3rem;
+                    color: #5f27cd;
+                    ">
+                </i>
+
+                <p class="text-muted mt-3 mb-0">
+                    No brands are available at the moment.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+<!-- ======= Shopping Features Section ======= -->
+
+<section class="shopping-features-section">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="shopping-features-header text-center">
+
+            <h2>
+                Why Shopping with ODEN is Simple &amp; Reliable
+            </h2>
+
+            <p>
+                Everything is designed to help you browse sportswear,
+                choose your products, and shop with confidence.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="100">
+
+                <div class="shopping-feature-card h-100">
+
+                    <div class="shopping-feature-icon">
+
+                        <i class="bi bi-tags"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Shop by Brand
+                    </h4>
+
+                    <p>
+                        Browse products from your favorite sports brands
+                        and quickly find the collection you want.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="150">
+
+                <div class="shopping-feature-card h-100">
+
+                    <div class="shopping-feature-icon">
+
+                        <i class="bi bi-person-lock"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Secure Account
+                    </h4>
+
+                    <p>
+                        Your account areas are protected through secure
+                        authentication and access controls.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="200">
+
+                <div class="shopping-feature-card h-100">
+
+                    <div class="shopping-feature-icon">
+
+                        <i class="bi bi-cart-check"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Protected Cart
+                    </h4>
+
+                    <p>
+                        Your shopping cart is connected to your account
+                        so your selected products stay associated with you.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="250">
+
+                <div class="shopping-feature-card h-100">
+
+                    <div class="shopping-feature-icon">
+
+                        <i class="bi bi-box-seam"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Stock-Aware Shopping
+                    </h4>
+
+                    <p>
+                        Product quantities are checked to help keep your
+                        shopping choices aligned with available stock.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="300">
+
+                <div class="shopping-feature-card h-100">
+
+                    <div class="shopping-feature-icon">
+
+                        <i class="bi bi-grid"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Organized Catalog
+                    </h4>
+
+                    <p>
+                        Products are organized by brand to make browsing
+                        and discovering sportswear easier.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="350">
+
+                <div class="shopping-feature-card h-100">
+
+                    <div class="shopping-feature-icon">
+
+                        <i class="bi bi-shield-check"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Safer Shopping Experience
+                    </h4>
+
+                    <p>
+                        Validation and protected actions help provide
+                        a more reliable experience throughout the store.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======= Trust Section ======= -->
+
+<section class="store-trust-section">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="store-trust-header text-center">
+
+            <h2>
+                Why Customers Trust ODEN STORE
+            </h2>
+
+            <p>
+                A straightforward sportswear shopping experience built
+                around trusted brands, protected accounts, and clear product availability.
+            </p>
+
+        </div>
+
+        <div class="row g-3 justify-content-center">
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="store-trust-item">
+
+                    <i class="bi bi-check-circle"
+                       aria-hidden="true">
+                    </i>
+
+                    <span>
+                        Sportswear from recognized brands
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="store-trust-item">
+
+                    <i class="bi bi-shield-check"
+                       aria-hidden="true">
+                    </i>
+
+                    <span>
+                        Protected account and cart experience
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="store-trust-item">
+
+                    <i class="bi bi-box-seam"
+                       aria-hidden="true">
+                    </i>
+
+                    <span>
+                        Product stock and quantity validation
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center store-trust-action">
+
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Products"
+               class="store-trust-button">
+
+                Start Shopping
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======= Reviews Section ======= -->
+
+<section id="testimonials"
+         class="customer-reviews-section"
+         style="scroll-margin-top: 90px;">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="store-trust-header text-center">
+
+            <h2>
+                USER REVIEWS
+            </h2>
+
+            <p>
+                What customers say about our store
+            </p>
+
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(reviewSuccessMessage))
+        {
+            <div class="alert alert-success text-center"
+                 role="alert">
+
+                @reviewSuccessMessage
+
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(reviewErrorMessage))
+        {
+            <div class="alert alert-danger text-center"
+                 role="alert">
+
+                @reviewErrorMessage
+
+            </div>
+        }
+
+        @if (reviews.Any())
+        {
+            <div class="row g-4 customer-review-grid">
+
+                @foreach (var review in reviews)
+                {
+                    var reviewName =
+                        string.IsNullOrWhiteSpace(review.Name)
+                            ? "Customer"
+                            : review.Name.Trim();
+
+                    var avatarLetter =
+                        reviewName[0]
+                            .ToString()
+                            .ToUpperInvariant();
+
+                    <div class="col-lg-4 col-md-6 d-flex"
+                         data-aos="fade-up">
+
+                        <article class="customer-review-card h-100">
+
+                            <div class="customer-review-header">
+
+                                <div class="customer-review-avatar"
+                                     aria-hidden="true">
+
+                                    @avatarLetter
+
+                                </div>
+
+                                <div class="customer-review-customer">
+
+                                    <h3>
+                                        @reviewName
+                                    </h3>
+
+                                    <span>
+                                        Customer Review
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="customer-review-quote"
+                                 aria-hidden="true">
+
+                                <i class="bi bi-quote"></i>
+
+                            </div>
+
+                            <p class="customer-review-text">
+
+                                @review.Description
+
+                            </p>
+
+                        </article>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="text-center customer-reviews-empty">
+
+                <i class="bi bi-chat-quote"
+                   aria-hidden="true">
+                </i>
+
+                <p>
+                    No customer reviews are available yet.
+                </p>
+
+            </div>
+        }
+
+        <!-- ======= Review Submission ======= -->
+
+        <div class="review-submission-wrapper">
+
+            <div class="review-submission-header text-center">
+
+                <h3>
+                    Leave a Review
+                </h3>
+
+                <p>
+                    Share your experience with ODEN STORE.
+                </p>
+
+            </div>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <form asp-area=""
+                      asp-controller="Home"
+                      asp-action="SubmitReview"
+                      method="post"
+                      class="review-submission-form">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <label for="review-name"
+                                   class="form-label">
+
+                                Name
+                            </label>
+
+                            <input id="review-name"
+                                   name="Name"
+                                   type="text"
+                                   class="form-control"
+                                   maxlength="100"
+                                   autocomplete="name"
+                                   placeholder="Your name"
+                                   required>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="review-subject"
+                                   class="form-label">
+
+                                Subject
+
+                                <span class="text-muted">
+                                    (Optional)
+                                </span>
+
+                            </label>
+
+                            <input id="review-subject"
+                                   name="Subject"
+                                   type="text"
+                                   class="form-control"
+                                   maxlength="200"
+                                   placeholder="Review subject">
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label for="review-description"
+                                   class="form-label">
+
+                                Your Review
+                            </label>
+
+                            <textarea id="review-description"
+                                      name="Description"
+                                      class="form-control"
+                                      rows="5"
+                                      minlength="10"
+                                      maxlength="4000"
+                                      placeholder="Tell us about your experience..."
+                                      required></textarea>
+
+                            <div class="form-text">
+                                Your review must contain at least 10 characters.
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 text-center">
+
+                            <button type="submit"
+                                    class="review-submit-button">
+
+                                <i class="bi bi-send me-2"
+                                   aria-hidden="true">
+                                </i>
+
+                                Submit Review
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            }
+            else
+            {
+                <div class="review-login-required text-center">
+
+                    <div class="review-login-icon">
+
+                        <i class="bi bi-lock"
+                           aria-hidden="true">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        Login Required
+                    </h4>
+
+                    <p>
+                        Please sign in to your account before leaving a review.
+                    </p>
+
+                    <a asp-area="Identity"
+                       asp-page="/Account/Login"
+                       asp-route-returnUrl="/#testimonials"
+                       class="review-login-button">
+
+                        Login to Leave a Review
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</section>

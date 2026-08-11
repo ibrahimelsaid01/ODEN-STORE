@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.12009.203 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreOde", "StoreOde\StoreOde.csproj", "{C4969A95-6833-4239-A9DE-54E578EA247B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4969A95-6833-4239-A9DE-54E578EA247B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4969A95-6833-4239-A9DE-54E578EA247B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4969A95-6833-4239-A9DE-54E578EA247B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4969A95-6833-4239-A9DE-54E578EA247B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4465B3B1-9294-4E0E-8569-A980522B6DE6}
+	EndGlobalSection
+EndGlobal

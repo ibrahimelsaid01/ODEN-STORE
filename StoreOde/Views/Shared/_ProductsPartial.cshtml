@@ -1,0 +1,416 @@
+﻿@model StoreOde.Models.Product
+
+@{
+    var productName =
+        string.IsNullOrWhiteSpace(Model.Name)
+            ? "Product"
+            : Model.Name.Trim();
+
+    var productPhoto =
+        string.IsNullOrWhiteSpace(Model.Photo)
+            ? null
+            : Model.Photo.Trim();
+
+    var productType =
+        string.IsNullOrWhiteSpace(Model.Type)
+            ? null
+            : Model.Type.Trim();
+
+    var supplierName =
+        string.IsNullOrWhiteSpace(Model.SupplierName)
+            ? null
+            : Model.SupplierName.Trim();
+
+    var availableStock =
+        Math.Max(
+            Model.Quantity,
+            0);
+
+    var hasRegularPrice =
+        Model.Price > 0;
+
+    var hasDiscountValue =
+        Model.Priceafterdiscount.HasValue;
+
+    var hasValidDiscountValue =
+        hasDiscountValue
+        &&
+        Model.Priceafterdiscount!.Value >= 0
+        &&
+        hasRegularPrice
+        &&
+        Model.Priceafterdiscount.Value <=
+            Model.Price;
+
+    var pricingIsValid =
+        hasRegularPrice
+        &&
+        (
+            !hasDiscountValue
+            ||
+            hasValidDiscountValue
+        );
+
+    var hasActiveDiscount =
+        pricingIsValid
+        &&
+        Model.Priceafterdiscount.HasValue
+        &&
+        Model.Priceafterdiscount.Value <
+            Model.Price;
+
+    decimal? unitPrice = null;
+
+    if (pricingIsValid)
+    {
+        unitPrice =
+            hasActiveDiscount
+                ? Model.Priceafterdiscount!.Value
+                : Model.Price;
+    }
+
+    var canAddToCart =
+        pricingIsValid
+        &&
+        availableStock > 0;
+
+    var isAuthenticated =
+        User.Identity?.IsAuthenticated == true;
+
+    var returnUrl =
+        $"{Context.Request.Path}{Context.Request.QueryString}";
+}
+
+<div class="col-lg-4 col-md-6 mb-4"
+     data-aos="fade-up">
+
+    <div class="card h-100 border-0 shadow-sm"
+         style="border-radius: 20px;
+        overflow: hidden;
+        transition: 0.4s;
+        background: #fff;"
+         onmouseover="this.style.transform='translateY(-12px)';"
+         onmouseout="this.style.transform='translateY(0)';">
+
+        <!-- Product Image -->
+        <div class="text-center p-4"
+             style="background: #f8f9fa;
+            min-height: 268px;
+            display: flex;
+            align-items: center;
+            justify-content: center;">
+
+            @if (productPhoto is not null)
+            {
+                <img src="@productPhoto"
+                     class="img-fluid"
+                     loading="lazy"
+                     style="height: 220px;
+                width: 100%;
+                object-fit: contain;"
+                     alt="@productName">
+            }
+            else
+            {
+                <div style="height: 220px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    color: #b2bec3;">
+
+                    <i class="bx bx-image"
+                       aria-hidden="true"
+                       style="font-size: 60px;
+                        color: #5f27cd;
+                        opacity: 0.35;">
+                    </i>
+
+                    <span class="small mt-2">
+                        No image available
+                    </span>
+
+                </div>
+            }
+
+        </div>
+
+        <div class="card-body
+            text-center
+            d-flex
+            flex-column
+            p-4">
+
+            <!-- Product Name -->
+            <h5 class="fw-bold mb-2"
+                style="color: #2d3436;
+                font-size: 1.1rem;">
+
+                @productName
+
+            </h5>
+
+            <p class="text-muted small mb-3">
+                Premium ODEN Sportswear Collection
+            </p>
+
+            <!-- Product Metadata -->
+            @if (productType is not null ||
+                 supplierName is not null)
+            {
+                <div class="mb-3">
+
+                    @if (productType is not null)
+                    {
+                        <span class="badge
+                            bg-light
+                            text-dark
+                            border
+                            me-1">
+
+                            @productType
+
+                        </span>
+                    }
+
+                    @if (supplierName is not null)
+                    {
+                        <span class="badge
+                            bg-light
+                            text-dark
+                            border">
+
+                            @supplierName
+
+                        </span>
+                    }
+
+                </div>
+            }
+
+            <div class="mt-auto">
+
+                <!-- Stock -->
+                <div class="d-flex
+                    justify-content-between
+                    align-items-center
+                    bg-light
+                    p-2
+                    rounded-3
+                    mb-2">
+
+                    <span class="text-muted small ps-2">
+                        Stock:
+                    </span>
+
+                    @if (availableStock > 0)
+                    {
+                        <span class="fw-semibold
+                            pe-2
+                            text-success">
+
+                            @availableStock available
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="fw-semibold
+                            pe-2
+                            text-danger">
+
+                            Out of stock
+
+                        </span>
+                    }
+
+                </div>
+
+                <!-- Price -->
+                <div class="d-flex
+                    justify-content-between
+                    align-items-center
+                    bg-light
+                    p-2
+                    rounded-3
+                    mb-2">
+
+                    <span class="text-muted small ps-2">
+                        Price:
+                    </span>
+
+                    @if (!pricingIsValid ||
+                         !unitPrice.HasValue)
+                    {
+                        <span class="fw-bold
+                            pe-2
+                            text-muted">
+
+                            Unavailable
+
+                        </span>
+                    }
+                    else if (hasActiveDiscount)
+                    {
+                        <div class="pe-2 text-end">
+
+                            <span class="text-muted
+                                text-decoration-line-through
+                                small
+                                me-1">
+
+                                @Model.Price.ToString("N2")
+                                EGP
+
+                            </span>
+
+                            <span class="fw-bold"
+                                  style="color: #5f27cd;
+                                font-size: 1.2rem;">
+
+                                @unitPrice.Value.ToString("N2")
+                                EGP
+
+                            </span>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="fw-bold pe-2"
+                              style="color: #5f27cd;
+                            font-size: 1.2rem;">
+
+                            @unitPrice.Value.ToString("N2")
+                            EGP
+
+                        </span>
+                    }
+
+                </div>
+
+                @if (!canAddToCart)
+                {
+                    <!--
+                        Product cannot currently be purchased.
+
+                        The server applies the same pricing and
+                        stock rules inside CartController.Add.
+                    -->
+                    <button type="button"
+                            class="btn
+                        w-100
+                        py-2
+                        mt-2
+                        text-white
+                        shadow-sm"
+                            disabled
+                            style="background:
+                        linear-gradient(
+                        45deg,
+                        #5f27cd,
+                        #341f97);
+                        border-radius: 12px;
+                        font-weight: 600;
+                        border: none;
+                        opacity: 0.55;">
+
+                        @if (availableStock <= 0)
+                        {
+                            <text>OUT OF STOCK</text>
+                        }
+                        else
+                        {
+                            <text>UNAVAILABLE</text>
+                        }
+
+                    </button>
+                }
+                else if (!isAuthenticated)
+                {
+                    <!--
+                        Anonymous users are sent to Login first.
+
+                        We intentionally do not POST to the protected
+                        Cart endpoint before authentication because
+                        the original POST cannot safely be replayed
+                        after the login redirect.
+                    -->
+                    <a asp-area="Identity"
+                       asp-page="/Account/Login"
+                       asp-route-returnUrl="@returnUrl"
+                       class="btn
+                        w-100
+                        py-2
+                        mt-2
+                        text-white
+                        shadow-sm"
+                       style="background:
+                        linear-gradient(
+                        45deg,
+                        #5f27cd,
+                        #341f97);
+                        border-radius: 12px;
+                        font-weight: 600;
+                        border: none;">
+
+                        ADD TO CART
+
+                    </a>
+                }
+                else
+                {
+                    <!--
+                        State-changing Cart operation must be POST.
+
+                        Razor Form Tag Helpers generate the
+                        anti-forgery token automatically.
+                    -->
+                    <form asp-controller="Cart"
+                          asp-action="Add"
+                          method="post"
+                          class="m-0">
+
+                        <input type="hidden"
+                               name="productId"
+                               value="@Model.Id">
+
+                        <input type="hidden"
+                               name="quantity"
+                               value="1">
+
+                        <button type="submit"
+                                class="btn
+                            w-100
+                            py-2
+                            mt-2
+                            text-white
+                            shadow-sm"
+                                style="background:
+                            linear-gradient(
+                            45deg,
+                            #5f27cd,
+                            #341f97);
+                            border-radius: 12px;
+                            font-weight: 600;
+                            border: none;">
+
+                            <i class="bx bx-cart-add me-1"
+                               aria-hidden="true">
+                            </i>
+
+                            ADD TO CART
+
+                        </button>
+
+                    </form>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,408 @@
+﻿@model IReadOnlyList<StoreOde.Models.Product>
+
+@{
+    ViewData["Title"] = "Product Management";
+}
+
+<section class="section-bg py-5">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="d-flex flex-column flex-md-row
+            justify-content-between
+            align-items-md-center
+            gap-3
+            mb-4">
+
+            <div>
+
+                <h1 class="h2 mb-1"
+                    style="color: #341f97;">
+                    Product Management
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Manage products, inventory, pricing and categories.
+                </p>
+
+            </div>
+
+            <div>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Create"
+                   class="btn text-white px-4"
+                   style="background: #5f27cd;">
+
+                    <i class="bi bi-plus-lg me-1"
+                       aria-hidden="true">
+                    </i>
+
+                    Create Product
+
+                </a>
+
+            </div>
+
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            <div class="bg-white
+                shadow-sm
+                rounded-3
+                text-center
+                p-5">
+
+                <i class="bi bi-box-seam"
+                   aria-hidden="true"
+                   style="font-size: 3rem; color: #5f27cd;">
+                </i>
+
+                <h2 class="h4 mt-3">
+                    No products found
+                </h2>
+
+                <p class="text-muted mb-4">
+                    There are currently no products in the catalog.
+                </p>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Create"
+                   class="btn text-white px-4"
+                   style="background: #5f27cd;">
+
+                    Create Your First Product
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header
+                    bg-white
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    py-3">
+
+                    <h2 class="h5 mb-0">
+                        Products
+                    </h2>
+
+                    <span class="badge bg-secondary">
+
+                        @Model.Count
+                        @(Model.Count == 1 ? "product" : "products")
+
+                    </span>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table
+                        table-hover
+                        align-middle
+                        mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th scope="col">
+                                    ID
+                                </th>
+
+                                <th scope="col">
+                                    Product
+                                </th>
+
+                                <th scope="col">
+                                    Category
+                                </th>
+
+                                <th scope="col">
+                                    Price
+                                </th>
+
+                                <th scope="col">
+                                    Stock
+                                </th>
+
+                                <th scope="col">
+                                    Type
+                                </th>
+
+                                <th scope="col">
+                                    Status
+                                </th>
+
+                                <th scope="col"
+                                    class="text-end">
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var product in Model)
+                            {
+                                var productName =
+                                    string.IsNullOrWhiteSpace(product.Name)
+                                        ? "Unnamed Product"
+                                        : product.Name.Trim();
+
+                                var categoryName =
+                                    string.IsNullOrWhiteSpace(product.Cat?.Name)
+                                        ? "Unassigned"
+                                        : product.Cat.Name.Trim();
+
+                                var hasValidDiscount =
+                                    product.Price > 0 &&
+                                    product.Priceafterdiscount.HasValue &&
+                                    product.Priceafterdiscount.Value >= 0 &&
+                                    product.Priceafterdiscount.Value <
+                                    product.Price;
+
+                                var hasInvalidDiscount =
+                                    product.Priceafterdiscount.HasValue &&
+                                    (
+                                        product.Priceafterdiscount.Value < 0 ||
+                                        product.Priceafterdiscount.Value >
+                                        product.Price
+                                    );
+
+                                var requiresAttention =
+                                    string.IsNullOrWhiteSpace(product.Name) ||
+                                    product.Price <= 0 ||
+                                    product.Quantity < 0 ||
+                                    product.Catid <= 0 ||
+                                    product.Cat is null ||
+                                    hasInvalidDiscount;
+
+                                <tr>
+
+                                    <td class="text-muted">
+                                        @product.Id
+                                    </td>
+
+                                    <td>
+
+                                        <div class="fw-semibold">
+                                            @productName
+                                        </div>
+
+                                        @if (!string.IsNullOrWhiteSpace(
+                                            product.SupplierName))
+                                        {
+                                            <div class="small text-muted">
+                                                @product.SupplierName
+                                            </div>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (product.Catid > 0 &&
+                                             product.Cat is not null)
+                                        {
+                                            <span>
+                                                @categoryName
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Unassigned
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (product.Price > 0)
+                                        {
+                                            @if (hasValidDiscount)
+                                            {
+                                                <div class="fw-semibold"
+                                                     style="color: #5f27cd;">
+
+                                                    @(product.Priceafterdiscount!
+                                                        .Value
+                                                        .ToString("N2"))
+                                                    EGP
+
+                                                </div>
+
+                                                <del class="small text-muted">
+
+                                                    @(product.Price
+                                                        .ToString("N2"))
+                                                    EGP
+
+                                                </del>
+                                            }
+                                            else
+                                            {
+                                                <span class="fw-semibold">
+
+                                                    @(product.Price
+                                                        .ToString("N2"))
+                                                    EGP
+
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                Unavailable
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (product.Quantity <= 0)
+                                        {
+                                            <span class="badge bg-danger">
+                                                Out of stock
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">
+                                                @product.Quantity
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (string.IsNullOrWhiteSpace(
+                                            product.Type))
+                                        {
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            @product.Type
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (requiresAttention)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Needs attention
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">
+                                                Healthy
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex
+                                            justify-content-end
+                                            gap-2">
+
+                                            <a asp-area=""
+                                               asp-controller="Products"
+                                               asp-action="Details"
+                                               asp-route-id="@product.Id"
+                                               class="btn
+                                                btn-sm
+                                                btn-outline-secondary"
+                                               title="View product details">
+
+                                                <i class="bi bi-eye"
+                                                   aria-hidden="true">
+                                                </i>
+
+                                                <span class="visually-hidden">
+                                                    View @productName
+                                                </span>
+
+                                            </a>
+
+                                            <a asp-area=""
+                                               asp-controller="Products"
+                                               asp-action="Edit"
+                                               asp-route-id="@product.Id"
+                                               class="btn
+                                                btn-sm
+                                                btn-outline-primary"
+                                               title="Edit product">
+
+                                                <i class="bi bi-pencil"
+                                                   aria-hidden="true">
+                                                </i>
+
+                                                <span class="visually-hidden">
+                                                    Edit @productName
+                                                </span>
+
+                                            </a>
+
+                                            <a asp-area=""
+                                               asp-controller="Products"
+                                               asp-action="Delete"
+                                               asp-route-id="@product.Id"
+                                               class="btn
+                                                btn-sm
+                                                btn-outline-danger"
+                                               title="Delete product">
+
+                                                <i class="bi bi-trash"
+                                                   aria-hidden="true">
+                                                </i>
+
+                                                <span class="visually-hidden">
+                                                    Delete @productName
+                                                </span>
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>

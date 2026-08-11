@@ -1,0 +1,211 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<section style="margin-top: 100px; margin-bottom: 60px;">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xl-5 col-lg-6 col-md-8">
+
+                <div class="card
+                    shadow-lg
+                    border-0
+                    overflow-hidden"
+                     style="border-radius: 20px;">
+
+                    <div class="card-header
+                        text-white
+                        text-center
+                        border-0
+                        py-4"
+                         style="background: linear-gradient(135deg, #6f42c1 0%, #4e2a84 100%);">
+
+                        <h1 class="h3 fw-bold mb-2">
+                            Join ODEN STORE
+                        </h1>
+
+                        <p class="mb-0 opacity-75">
+                            Create your account to start shopping.
+                        </p>
+
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <form id="registerForm"
+                              method="post"
+                              asp-route-returnUrl="@Model.ReturnUrl">
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger"
+                                 role="alert">
+                            </div>
+
+                            <div class="form-floating mb-3">
+
+                                <input asp-for="Input.Email"
+                                       type="email"
+                                       class="form-control"
+                                       autocomplete="username"
+                                       inputmode="email"
+                                       maxlength="256"
+                                       placeholder="name@example.com"
+                                       required>
+
+                                <label asp-for="Input.Email">
+                                    Email Address
+                                </label>
+
+                                <span asp-validation-for="Input.Email"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+                            <div class="form-floating mb-2">
+
+                                <input asp-for="Input.Password"
+                                       class="form-control"
+                                       autocomplete="new-password"
+                                       minlength="10"
+                                       maxlength="128"
+                                       placeholder="Password"
+                                       required>
+
+                                <label asp-for="Input.Password">
+                                    Password
+                                </label>
+
+                                <span asp-validation-for="Input.Password"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+                            <div class="small text-muted mb-3">
+
+                                Your password must contain at least:
+
+                                <ul class="mb-0 mt-1 ps-4">
+
+                                    <li>
+                                        10 characters
+                                    </li>
+
+                                    <li>
+                                        One uppercase letter
+                                    </li>
+
+                                    <li>
+                                        One lowercase letter
+                                    </li>
+
+                                    <li>
+                                        One number
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                            <div class="form-floating mb-4">
+
+                                <input asp-for="Input.ConfirmPassword"
+                                       class="form-control"
+                                       autocomplete="new-password"
+                                       minlength="10"
+                                       maxlength="128"
+                                       placeholder="Confirm password"
+                                       required>
+
+                                <label asp-for="Input.ConfirmPassword">
+                                    Confirm Password
+                                </label>
+
+                                <span asp-validation-for="Input.ConfirmPassword"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+                            <button id="registerSubmit"
+                                    type="submit"
+                                    class="btn
+                                btn-lg
+                                w-100
+                                text-white
+                                fw-semibold"
+                                    style="background: #6f42c1;
+                                border: none;
+                                border-radius: 10px;">
+
+                                Create Account
+
+                            </button>
+
+                            <div class="alert alert-light border mt-4 mb-0"
+                                 role="note">
+
+                                <div class="d-flex gap-2">
+
+                                    <i class="bi bi-envelope-check"
+                                       aria-hidden="true">
+                                    </i>
+
+                                    <div class="small">
+
+                                        After registration, you'll need to
+                                        confirm your email address before
+                                        signing in.
+
+                                        Check your inbox for the confirmation
+                                        link. If it doesn't arrive, you can
+                                        request another one from the sign-in
+                                        page.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="text-center">
+
+                                <p class="mb-0">
+
+                                    Already have an account?
+
+                                    <a asp-page="./Login"
+                                       asp-route-returnUrl="@Model.ReturnUrl"
+                                       class="fw-semibold text-decoration-none"
+                                       style="color: #6f42c1;">
+
+                                        Sign in
+
+                                    </a>
+
+                                </p>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

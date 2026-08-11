@@ -1,0 +1,665 @@
+﻿@model StoreOde.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+
+    var productName =
+        string.IsNullOrWhiteSpace(Model.Name)
+            ? $"Product #{Model.Id}"
+            : Model.Name.Trim();
+
+    var categoryName =
+        string.IsNullOrWhiteSpace(Model.Cat?.Name)
+            ? null
+            : Model.Cat.Name.Trim();
+
+    var description =
+        string.IsNullOrWhiteSpace(Model.Description)
+            ? null
+            : Model.Description.Trim();
+
+    var supplierName =
+        string.IsNullOrWhiteSpace(Model.SupplierName)
+            ? null
+            : Model.SupplierName.Trim();
+
+    var productType =
+        string.IsNullOrWhiteSpace(Model.Type)
+            ? null
+            : Model.Type.Trim();
+
+    var photo =
+        string.IsNullOrWhiteSpace(Model.Photo)
+            ? null
+            : Model.Photo.Trim();
+
+    var reviewUrl =
+        string.IsNullOrWhiteSpace(Model.ReviewUrl)
+            ? null
+            : Model.ReviewUrl.Trim();
+
+    var hasValidDiscount =
+        Model.Price > 0 &&
+        Model.Priceafterdiscount.HasValue &&
+        Model.Priceafterdiscount.Value >= 0 &&
+        Model.Priceafterdiscount.Value < Model.Price;
+
+    var hasInvalidDiscount =
+        Model.Priceafterdiscount.HasValue &&
+        (
+            Model.Priceafterdiscount.Value < 0 ||
+            Model.Priceafterdiscount.Value > Model.Price
+        );
+
+    var requiresAttention =
+        string.IsNullOrWhiteSpace(Model.Name) ||
+        Model.Price <= 0 ||
+        Model.Quantity < 0 ||
+        Model.Catid <= 0 ||
+        Model.Cat is null ||
+        hasInvalidDiscount;
+
+    var isLocalPhoto =
+        photo is not null &&
+        (
+            photo.StartsWith("/", StringComparison.Ordinal) ||
+            photo.StartsWith("~/", StringComparison.Ordinal)
+        );
+
+    var localPhotoUrl =
+        isLocalPhoto
+            ? Url.Content(photo!)
+            : null;
+
+    var isValidReviewUrl =
+        reviewUrl is not null &&
+        Uri.TryCreate(
+            reviewUrl,
+            UriKind.Absolute,
+            out var parsedReviewUri) &&
+        (
+            parsedReviewUri.Scheme == Uri.UriSchemeHttps ||
+            parsedReviewUri.Scheme == Uri.UriSchemeHttp
+        );
+}
+
+<section class="section-bg py-5">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="d-flex
+            flex-column
+            flex-lg-row
+            justify-content-between
+            align-items-lg-center
+            gap-3
+            mb-4">
+
+            <div>
+
+                <div class="d-flex
+                    flex-wrap
+                    align-items-center
+                    gap-2
+                    mb-1">
+
+                    <h1 class="h2 mb-0"
+                        style="color: #341f97;">
+                        @productName
+                    </h1>
+
+                    @if (requiresAttention)
+                    {
+                        <span class="badge bg-warning text-dark">
+                            Needs attention
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">
+                            Healthy
+                        </span>
+                    }
+
+                </div>
+
+                <p class="text-muted mb-0">
+                    Product ID: @Model.Id
+                </p>
+
+            </div>
+
+            <div class="d-flex
+                flex-wrap
+                gap-2">
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+
+                    <i class="bi bi-arrow-left me-1"
+                       aria-hidden="true">
+                    </i>
+
+                    Back to Products
+
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-outline-primary">
+
+                    <i class="bi bi-pencil me-1"
+                       aria-hidden="true">
+                    </i>
+
+                    Edit
+
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Products"
+                   asp-action="Delete"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-outline-danger">
+
+                    <i class="bi bi-trash me-1"
+                       aria-hidden="true">
+                    </i>
+
+                    Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+        @if (requiresAttention)
+        {
+            <div class="alert alert-warning"
+                 role="alert">
+
+                <div class="fw-semibold mb-1">
+                    This product contains incomplete or invalid data.
+                </div>
+
+                <div>
+                    Review the highlighted information below and edit
+                    the product before the final database cleanup.
+                </div>
+
+            </div>
+        }
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+
+                <div class="card
+                    border-0
+                    shadow-sm
+                    h-100">
+
+                    <div class="card-header
+                        bg-white
+                        py-3">
+
+                        <h2 class="h5 mb-0">
+                            Product Image
+                        </h2>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        @if (localPhotoUrl is not null)
+                        {
+                            <div class="d-flex
+                                justify-content-center
+                                align-items-center
+                                bg-light
+                                rounded-3
+                                p-3"
+                                 style="min-height: 300px;">
+
+                                <img src="@localPhotoUrl"
+                                     class="img-fluid"
+                                     style="max-height: 280px; object-fit: contain;"
+                                     alt="@productName">
+
+                            </div>
+
+                            <div class="mt-3">
+
+                                <div class="small text-muted mb-1">
+                                    Stored Path
+                                </div>
+
+                                <code class="text-break">
+                                    @photo
+                                </code>
+
+                            </div>
+                        }
+                        else if (photo is not null)
+                        {
+                            <div class="bg-light
+                                rounded-3
+                                p-4
+                                text-center">
+
+                                <i class="bi bi-link-45deg"
+                                   aria-hidden="true"
+                                   style="font-size: 3rem; color: #5f27cd;">
+                                </i>
+
+                                <h3 class="h6 mt-2">
+                                    External or unsupported image path
+                                </h3>
+
+                                <p class="small text-muted mb-0">
+                                    The image is not loaded automatically
+                                    on this administration page.
+                                </p>
+
+                            </div>
+
+                            <div class="mt-3">
+
+                                <div class="small text-muted mb-1">
+                                    Stored Value
+                                </div>
+
+                                <code class="text-break">
+                                    @photo
+                                </code>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex
+                                flex-column
+                                justify-content-center
+                                align-items-center
+                                text-center
+                                bg-light
+                                rounded-3
+                                p-5"
+                                 style="min-height: 300px;">
+
+                                <i class="bi bi-image"
+                                   aria-hidden="true"
+                                   style="font-size: 4rem; color: #6c757d;">
+                                </i>
+
+                                <h3 class="h6 mt-3">
+                                    No product image
+                                </h3>
+
+                                <p class="small text-muted mb-0">
+                                    No photo path or URL is configured
+                                    for this product.
+                                </p>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-8">
+
+                <div class="card
+                    border-0
+                    shadow-sm
+                    mb-4">
+
+                    <div class="card-header
+                        bg-white
+                        py-3">
+
+                        <h2 class="h5 mb-0">
+                            General Information
+                        </h2>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+
+                                <div class="small text-muted mb-1">
+                                    Product Name
+                                </div>
+
+                                @if (string.IsNullOrWhiteSpace(Model.Name))
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        Missing
+                                    </span>
+                                }
+                                else
+                                {
+                                    <div class="fw-semibold">
+                                        @productName
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="small text-muted mb-1">
+                                    Category
+                                </div>
+
+                                @if (categoryName is null)
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        Unassigned
+                                    </span>
+                                }
+                                else
+                                {
+                                    <div class="fw-semibold">
+                                        @categoryName
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="small text-muted mb-1">
+                                    Product Type
+                                </div>
+
+                                <div>
+                                    @(productType ?? "Not specified")
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="small text-muted mb-1">
+                                    Supplier
+                                </div>
+
+                                <div>
+                                    @(supplierName ?? "Not specified")
+                                </div>
+
+                            </div>
+
+                            <div class="col-12">
+
+                                <div class="small text-muted mb-1">
+                                    Description
+                                </div>
+
+                                @if (description is null)
+                                {
+                                    <div class="text-muted">
+                                        No description provided.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div style="white-space: pre-wrap;">@description</div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card
+                    border-0
+                    shadow-sm
+                    mb-4">
+
+                    <div class="card-header
+                        bg-white
+                        py-3">
+
+                        <h2 class="h5 mb-0">
+                            Pricing &amp; Inventory
+                        </h2>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-4">
+
+                            <div class="col-md-4">
+
+                                <div class="small text-muted mb-1">
+                                    Original Price
+                                </div>
+
+                                @if (Model.Price > 0)
+                                {
+                                    <div class="fw-semibold">
+                                        @Model.Price.ToString("N2") EGP
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        Not configured
+                                    </span>
+                                }
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <div class="small text-muted mb-1">
+                                    Discounted Price
+                                </div>
+
+                                @if (hasValidDiscount)
+                                {
+                                    <div class="fw-semibold"
+                                         style="color: #5f27cd;">
+
+                                        @Model.Priceafterdiscount!.Value.ToString("N2")
+                                        EGP
+
+                                    </div>
+                                }
+                                else if (hasInvalidDiscount)
+                                {
+                                    <span class="badge bg-danger">
+                                        Invalid discount data
+                                    </span>
+
+                                    <div class="small text-muted mt-1">
+
+                                        @Model.Priceafterdiscount!.Value.ToString("N2")
+                                        EGP
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-muted">
+                                        No discount
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <div class="small text-muted mb-1">
+                                    Current Selling Price
+                                </div>
+
+                                @if (hasValidDiscount)
+                                {
+                                    <div class="fw-bold"
+                                         style="color: #5f27cd;">
+
+                                        @Model.Priceafterdiscount!.Value.ToString("N2")
+                                        EGP
+
+                                    </div>
+                                }
+                                else if (Model.Price > 0)
+                                {
+                                    <div class="fw-bold">
+                                        @Model.Price.ToString("N2") EGP
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Unavailable
+                                    </span>
+                                }
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="small text-muted mb-1">
+                                    Stock
+                                </div>
+
+                                @if (Model.Quantity < 0)
+                                {
+                                    <span class="badge bg-danger">
+                                        Invalid stock value
+                                    </span>
+                                }
+                                else if (Model.Quantity == 0)
+                                {
+                                    <span class="badge bg-danger">
+                                        Out of stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">
+                                        @Model.Quantity items in stock
+                                    </span>
+                                }
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="small text-muted mb-1">
+                                    Entry Date
+                                </div>
+
+                                @if (Model.EntryDate.HasValue)
+                                {
+                                    <div>
+                                        @Model.EntryDate.Value.ToString(
+                                            "dd MMM yyyy")
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Not recorded
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card
+                    border-0
+                    shadow-sm">
+
+                    <div class="card-header
+                        bg-white
+                        py-3">
+
+                        <h2 class="h5 mb-0">
+                            Additional Information
+                        </h2>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-4">
+
+                            <div class="col-12">
+
+                                <div class="small text-muted mb-1">
+                                    Review URL
+                                </div>
+
+                                @if (reviewUrl is null)
+                                {
+                                    <span class="text-muted">
+                                        Not provided
+                                    </span>
+                                }
+                                else if (isValidReviewUrl)
+                                {
+                                    <a href="@reviewUrl"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="text-break">
+
+                                        @reviewUrl
+
+                                        <i class="bi bi-box-arrow-up-right ms-1"
+                                           aria-hidden="true">
+                                        </i>
+
+                                    </a>
+                                }
+                                else
+                                {
+                                    <div class="text-break">
+                                        @reviewUrl
+                                    </div>
+
+                                    <div class="small text-warning mt-1">
+                                        This value is not a valid HTTP or HTTPS URL.
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

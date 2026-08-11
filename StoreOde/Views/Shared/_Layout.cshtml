@@ -1,0 +1,782 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    var controllerName =
+        ViewContext.RouteData.Values["controller"]
+            ?.ToString();
+
+    var actionName =
+        ViewContext.RouteData.Values["action"]
+            ?.ToString();
+
+    var isHomePage =
+        string.Equals(
+            controllerName,
+            "Home",
+            StringComparison.OrdinalIgnoreCase)
+        &&
+        string.Equals(
+            actionName,
+            "Index",
+            StringComparison.OrdinalIgnoreCase);
+
+    var canAccessAdmin =
+        User.Identity?.IsAuthenticated == true
+        &&
+        (await AuthorizationService.AuthorizeAsync(
+            User,
+            "AdminOnly")).Succeeded;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        @ViewData["Title"] | ODEN STORE
+    </title>
+
+    <meta name="description"
+          content="Best sportswear in Egypt">
+
+    <meta name="keywords"
+          content="sportswear, egypt, oden store, fitness">
+
+    <!-- Favicons -->
+
+    <link href="~/assets/img/favicon.png"
+          rel="icon"
+          asp-append-version="true">
+
+    <link href="~/assets/img/apple-touch-icon.png"
+          rel="apple-touch-icon"
+          asp-append-version="true">
+
+    <!-- Google Fonts -->
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Roboto:300,400,500,700|Poppins:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+
+    <link href="~/assets/vendor/aos/aos.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+    <link href="~/assets/vendor/boxicons/css/boxicons.min.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+    <link href="~/assets/vendor/glightbox/css/glightbox.min.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+    <link href="~/assets/vendor/swiper/swiper-bundle.min.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+    <!-- Main CSS File -->
+
+    <link href="~/assets/css/style.css"
+          rel="stylesheet"
+          asp-append-version="true">
+
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+
+    <header id="header"
+            class="fixed-top site-header">
+
+        <div class="container header-shell
+            d-flex
+            align-items-center
+            justify-content-between">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="site-brand text-white text-decoration-none"
+               aria-label="ODEN Store home">
+
+                <span class="site-brand-name">ODEN</span><span class="site-brand-dot">.</span>
+
+            </a>
+
+            <nav id="navbar"
+                 class="navbar site-navbar"
+                 aria-label="Primary navigation">
+
+                <ul class="primary-nav">
+
+                    <li class="nav-item">
+
+                        <a class="nav-link @(isHomePage ? "active" : string.Empty)"
+                           asp-controller="Home"
+                           asp-action="Index">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link @(string.Equals(controllerName, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(actionName, "About", StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty)"
+                           asp-controller="Home"
+                           asp-action="About">
+
+                            About Us
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link scrollto"
+                           asp-controller="Home"
+                           asp-action="Index"
+                           asp-fragment="services">
+
+                            Brands
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link scrollto"
+                           asp-controller="Home"
+                           asp-action="Index"
+                           asp-fragment="testimonials">
+
+                            Reviews
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link @(string.Equals(controllerName, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(actionName, "Products", StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty)"
+                           asp-controller="Home"
+                           asp-action="Products">
+
+                            Products
+
+                        </a>
+
+                    </li>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-item">
+
+                            <a class="nav-link @(string.Equals(controllerName, "Cart", StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty)"
+                               asp-controller="Cart"
+                               asp-action="Index">
+
+                                Cart
+
+                            </a>
+
+                        </li>
+                    }
+
+                    <li class="nav-item">
+
+                        <a class="nav-link @(string.Equals(controllerName, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(actionName, "Contact", StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty)"
+                           asp-controller="Home"
+                           asp-action="Contact">
+
+                            Contact
+
+                        </a>
+
+                    </li>
+
+                    @if (canAccessAdmin)
+                    {
+                        <li class="nav-item">
+
+                            <a class="nav-link admin-nav-link @(string.Equals(controllerName, "Products", StringComparison.OrdinalIgnoreCase) || string.Equals(controllerName, "Categories", StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty)"
+                               asp-controller="Products"
+                               asp-action="Index">
+
+                                <i class="bi bi-grid-1x2 me-1"
+                                   aria-hidden="true">
+                                </i>
+
+                                Dashboard
+
+                            </a>
+
+                        </li>
+                    }
+
+                    <partial name="_LoginPartial" />
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    @if (isHomePage)
+    {
+        <!-- ======= Hero Section ======= -->
+
+        <section id="hero"
+                 class="d-flex align-items-center"
+                 style="background:
+            linear-gradient(
+            45deg,
+            rgba(95, 39, 205, 0.8) 0%,
+            rgba(52, 31, 151, 0.8) 100%),
+            url('/assets/img/hero-bg.jpg')
+            center center;
+            background-size: cover;
+            min-height: 100vh;
+            width: 100%;">
+
+            <div class="container"
+                 data-aos="fade-up">
+
+                <div class="row">
+
+                    <div class="col-lg-6
+                        d-flex
+                        flex-column
+                        justify-content-center">
+
+                        <h1 style="color: #fff;
+                            font-size: 48px;
+                            font-weight: 700;">
+
+                            ODEN STORE
+
+                        </h1>
+
+                        <h2 style="color: #eee;
+                            margin-bottom: 30px;">
+
+                            We offer the best sportswear in Egypt
+
+                        </h2>
+
+                        <div>
+
+                            <a asp-controller="Home"
+                               asp-action="Products"
+                               class="btn-get-started"
+                               style="background: #5f27cd;
+                                padding: 10px 35px;
+                                color: #fff;
+                                border-radius: 50px;
+                                text-decoration: none;">
+
+                                SHOP NOW
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 hero-img"
+                         data-aos="zoom-in"
+                         data-aos-delay="150">
+
+                        <img src="~/assets/img/99.jpeg"
+                             class="img-fluid animated"
+                             alt="Sportswear"
+                             asp-append-version="true">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ======= Experience Section ======= -->
+
+        <section id="about"
+                 class="about section-bg experience-section">
+
+            <div class="container"
+                 data-aos="fade-up">
+
+                <div class="experience-header text-center">
+
+                    <h2>
+                        Experience Premium Quality
+                    </h2>
+
+                    <p>
+                        Discover trusted sportswear, secure shopping,
+                        and a wide selection from leading global brands.
+                    </p>
+
+                </div>
+
+                <div class="row g-4 justify-content-center">
+
+                    <div class="col-xl-3 col-md-6"
+                         data-aos="fade-up"
+                         data-aos-delay="100">
+
+                        <div class="experience-card h-100 text-center">
+
+                            <div class="experience-icon">
+
+                                <i class="bx bx-check-double"
+                                   aria-hidden="true">
+                                </i>
+
+                            </div>
+
+                            <h4>
+                                Premium Quality
+                            </h4>
+
+                            <p>
+                                Original products selected for quality,
+                                comfort, and everyday performance.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-3 col-md-6"
+                         data-aos="fade-up"
+                         data-aos-delay="150">
+
+                        <div class="experience-card h-100 text-center">
+
+                            <div class="experience-icon">
+
+                                <i class="bx bx-store"
+                                   aria-hidden="true">
+                                </i>
+
+                            </div>
+
+                            <h4>
+                                Top Brands
+                            </h4>
+
+                            <p>
+                                Shop sportswear from leading global brands
+                                available across our store.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-3 col-md-6"
+                         data-aos="fade-up"
+                         data-aos-delay="200">
+
+                        <div class="experience-card h-100 text-center">
+
+                            <div class="experience-icon">
+
+                                <i class="bx bx-shield-quarter"
+                                   aria-hidden="true">
+                                </i>
+
+                            </div>
+
+                            <h4>
+                                Secure Shopping
+                            </h4>
+
+                            <p>
+                                Enjoy a safer account and shopping experience
+                                throughout your visit.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-3 col-md-6"
+                         data-aos="fade-up"
+                         data-aos-delay="250">
+
+                        <div class="experience-card h-100 text-center">
+
+                            <div class="experience-icon">
+
+                                <i class="bx bx-grid-alt"
+                                   aria-hidden="true">
+                                </i>
+
+                            </div>
+
+                            <h4>
+                                Wide Selection
+                            </h4>
+
+                            <p>
+                                Explore sports products for different styles,
+                                needs, and everyday activities.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+    }
+
+    <main id="main">
+
+        <div class="@(isHomePage ? string.Empty : "pt-5")">
+
+            @RenderBody()
+
+        </div>
+
+    </main>
+
+    <!-- ======= Footer ======= -->
+
+    <footer id="footer">
+
+        <div class="footer-top">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-lg-4
+                        col-md-6
+                        footer-contact">
+
+                        <h3 style="color: #fff;">
+
+                            ODEN STORE<span>.</span>
+
+                        </h3>
+
+                        <p>
+
+                            شارع الجيش، المنصورة
+                            <br>
+
+                            الدقهلية، مصر
+                            <br><br>
+
+                            <strong>
+                                Phone:
+                            </strong>
+
+                            +20 109 075 3929
+
+                            <br>
+
+                            <strong>
+                                Email:
+                            </strong>
+
+                            odenstore@gmail.com
+
+                            <br>
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-lg-2
+                        col-md-6
+                        footer-links">
+
+                        <h4>
+                            Useful Links
+                        </h4>
+
+                        <ul>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="Index">
+
+                                    Home
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="About">
+
+                                    About us
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="Products">
+
+                                    Products
+
+                                </a>
+
+                            </li>
+
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <li>
+
+                                    <i class="bx bx-chevron-right"
+                                       aria-hidden="true">
+                                    </i>
+
+                                    <a asp-controller="Cart"
+                                       asp-action="Index">
+
+                                        Cart
+
+                                    </a>
+
+                                </li>
+                            }
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-lg-2
+                        col-md-6
+                        footer-links">
+
+                        <h4>
+                            Shop
+                        </h4>
+
+                        <ul>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="Products">
+
+                                    All Products
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="Index"
+                                   asp-fragment="services">
+
+                                    Browse Brands
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="Index"
+                                   asp-fragment="testimonials">
+
+                                    Customer Reviews
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <i class="bx bx-chevron-right"
+                                   aria-hidden="true">
+                                </i>
+
+                                <a asp-controller="Home"
+                                   asp-action="Contact">
+
+                                    Contact Us
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-lg-4
+                        col-md-6
+                        footer-newsletter">
+
+                        <h4>
+                            Explore Our Store
+                        </h4>
+
+                        <p>
+                            Discover the latest sportswear and products
+                            available from ODEN STORE.
+                        </p>
+
+                        <a asp-controller="Home"
+                           asp-action="Products"
+                           class="btn text-white"
+                           style="background: #5f27cd;
+                            border-radius: 50px;
+                            padding: 10px 24px;
+                            text-decoration: none;">
+
+                            Browse Products
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container py-4">
+
+            <div class="text-center text-md-start">
+
+                <div class="copyright">
+
+                    &copy; Copyright
+
+                    <strong>
+                        <span>
+                            ODEN STORE
+                        </span>
+                    </strong>.
+
+                    All Rights Reserved
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <a href="#"
+       class="back-to-top
+        d-flex
+        align-items-center
+        justify-content-center"
+       aria-label="Back to top">
+
+        <i class="bi bi-arrow-up-short"
+           aria-hidden="true">
+        </i>
+
+    </a>
+
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+
+    <script src="~/assets/vendor/purecounter/purecounter_vanilla.js"
+            asp-append-version="true">
+    </script>
+
+    <script src="~/assets/vendor/aos/aos.js"
+            asp-append-version="true">
+    </script>
+
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"
+            asp-append-version="true">
+    </script>
+
+    <script src="~/assets/vendor/glightbox/js/glightbox.min.js"
+            asp-append-version="true">
+    </script>
+
+    <script src="~/assets/vendor/isotope-layout/isotope.pkgd.min.js"
+            asp-append-version="true">
+    </script>
+
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"
+            asp-append-version="true">
+    </script>
+
+    <script src="~/assets/js/main.js"
+            asp-append-version="true">
+    </script>
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+
+</body>
+
+</html>

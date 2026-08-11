@@ -1,0 +1,512 @@
+﻿@using StoreOde.ViewModels
+@model CartViewModel
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<section class="section-bg"
+         style="padding-top: 120px;
+    padding-bottom: 70px;
+    min-height: 70vh;">
+
+    <div class="container"
+         data-aos="fade-up">
+
+        <div class="section-title text-center">
+
+            <h2 style="text-transform: uppercase;
+                font-weight: 700;
+                color: #341f97;">
+                Shopping Cart
+            </h2>
+
+            <p style="color: #777;">
+                Review your selected products before continuing.
+            </p>
+
+        </div>
+
+        @if (TempData["CartSuccessMessage"] is string successMessage &&
+             !string.IsNullOrWhiteSpace(successMessage))
+        {
+            <div class="alert alert-success
+                alert-dismissible
+                fade
+                show"
+                 role="alert">
+
+                <i class="bi bi-check-circle-fill me-2"
+                   aria-hidden="true">
+                </i>
+
+                @successMessage
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close">
+                </button>
+
+            </div>
+        }
+
+        @if (TempData["CartErrorMessage"] is string errorMessage &&
+             !string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <div class="alert alert-danger
+                alert-dismissible
+                fade
+                show"
+                 role="alert">
+
+                <i class="bi bi-exclamation-triangle-fill me-2"
+                   aria-hidden="true">
+                </i>
+
+                @errorMessage
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close">
+                </button>
+
+            </div>
+        }
+
+        @if (Model.IsEmpty)
+        {
+            <div class="row justify-content-center">
+
+                <div class="col-lg-7">
+
+                    <div class="bg-white
+                        text-center
+                        shadow-sm"
+                         style="padding: 60px 30px;
+                        border-radius: 18px;">
+
+                        <div style="width: 100px;
+                            height: 100px;
+                            margin: 0 auto 25px;
+                            border-radius: 50%;
+                            background: rgba(95, 39, 205, 0.1);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;">
+
+                            <i class="bx bx-cart"
+                               aria-hidden="true"
+                               style="font-size: 50px;
+                                color: #5f27cd;">
+                            </i>
+
+                        </div>
+
+                        <h3 style="font-weight: 700;
+                            color: #2d3436;">
+                            Your Cart Is Empty
+                        </h3>
+
+                        <p class="text-muted mb-4">
+                            You haven't added any products to your cart yet.
+                        </p>
+
+                        <a asp-controller="Home"
+                           asp-action="Products"
+                           class="btn text-white px-4 py-2"
+                           style="background:
+                            linear-gradient(
+                            45deg,
+                            #5f27cd,
+                            #341f97);
+                            border: none;
+                            border-radius: 10px;
+                            font-weight: 600;">
+
+                            <i class="bx bx-shopping-bag me-1"
+                               aria-hidden="true">
+                            </i>
+
+                            Start Shopping
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                <div class="col-lg-8">
+
+                    <div class="bg-white
+                        shadow-sm"
+                         style="border-radius: 18px;
+                        overflow: hidden;">
+
+                        <div class="p-4 border-bottom">
+
+                            <div class="d-flex
+                                justify-content-between
+                                align-items-center">
+
+                                <h4 class="mb-0"
+                                    style="font-weight: 700;
+                                    color: #2d3436;">
+
+                                    Cart Items
+
+                                </h4>
+
+                                <span class="badge"
+                                      style="background: #5f27cd;
+                                    font-size: 0.9rem;">
+
+                                    @Model.TotalQuantity item(s)
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="p-4 border-bottom">
+
+                                <div class="row
+                                    align-items-center
+                                    gy-3">
+
+                                    <div class="col-md-3">
+
+                                        <div class="d-flex
+                                            align-items-center
+                                            justify-content-center"
+                                             style="height: 150px;
+                                            background: #f8f9fa;
+                                            border-radius: 14px;
+                                            overflow: hidden;">
+
+                                            @if (!string.IsNullOrWhiteSpace(item.Photo))
+                                            {
+                                                <img src="@item.Photo"
+                                                     alt="@item.ProductName"
+                                                     class="img-fluid"
+                                                     loading="lazy"
+                                                     style="width: 100%;
+                                                height: 100%;
+                                                object-fit: contain;
+                                                padding: 10px;">
+                                            }
+                                            else
+                                            {
+                                                <i class="bx bx-shopping-bag"
+                                                   aria-hidden="true"
+                                                   style="font-size: 55px;
+                                                    color: #5f27cd;">
+                                                </i>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-5">
+
+                                        <h5 class="fw-bold mb-2"
+                                            style="color: #2d3436;">
+
+                                            @item.ProductName
+
+                                        </h5>
+
+                                        <div class="mb-2">
+
+                                            @if (item.HasDiscount)
+                                            {
+                                                <span class="text-muted
+                                                    text-decoration-line-through
+                                                    me-2">
+
+                                                    @item.OriginalPrice!.Value.ToString("N2")
+                                                    EGP
+
+                                                </span>
+                                            }
+
+                                            <span class="fw-bold"
+                                                  style="color: #5f27cd;
+                                                font-size: 1.15rem;">
+
+                                                @item.UnitPrice.ToString("N2")
+                                                EGP
+
+                                            </span>
+
+                                        </div>
+
+                                        @if (item.IsInStock)
+                                        {
+                                            <p class="mb-1 small"
+                                               style="color: #198754;">
+
+                                                <i class="bi bi-check-circle me-1"
+                                                   aria-hidden="true">
+                                                </i>
+
+                                                In Stock
+
+                                            </p>
+
+                                            <p class="text-muted
+                                                small
+                                                mb-0">
+
+                                                Available:
+                                                @item.AvailableStock
+
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="mb-0 small text-danger">
+
+                                                <i class="bi bi-exclamation-circle me-1"
+                                                   aria-hidden="true">
+                                                </i>
+
+                                                Currently Out of Stock
+
+                                            </p>
+                                        }
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="text-md-end mb-3">
+
+                                            <span class="small text-muted">
+                                                Item Total
+                                            </span>
+
+                                            <div class="fw-bold"
+                                                 style="font-size: 1.2rem;
+                                                color: #341f97;">
+
+                                                @item.LineTotal.ToString("N2")
+                                                EGP
+
+                                            </div>
+
+                                        </div>
+
+                                        @if (item.IsInStock)
+                                        {
+                                            <form asp-controller="Cart"
+                                                  asp-action="UpdateQuantity"
+                                                  method="post"
+                                                  class="mb-2">
+
+                                                <input type="hidden"
+                                                       name="cartItemId"
+                                                       value="@item.CartItemId">
+
+                                                <div class="input-group">
+
+                                                    <span class="input-group-text">
+                                                        Qty
+                                                    </span>
+
+                                                    <input type="number"
+                                                           name="quantity"
+                                                           value="@item.Quantity"
+                                                           min="1"
+                                                           max="@item.AvailableStock"
+                                                           class="form-control"
+                                                           aria-label="Quantity for @item.ProductName"
+                                                           required>
+
+                                                    <button type="submit"
+                                                            class="btn text-white"
+                                                            style="background: #5f27cd;
+                                                        border-color: #5f27cd;">
+
+                                                        Update
+
+                                                    </button>
+
+                                                </div>
+
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <div class="mb-2">
+
+                                                <span class="small text-muted">
+                                                    Quantity:
+                                                </span>
+
+                                                <strong>
+                                                    @item.Quantity
+                                                </strong>
+
+                                            </div>
+                                        }
+
+                                        <form asp-controller="Cart"
+                                              asp-action="Remove"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="cartItemId"
+                                                   value="@item.CartItemId">
+
+                                            <button type="submit"
+                                                    class="btn
+                                                btn-outline-danger
+                                                w-100">
+
+                                                <i class="bi bi-trash me-1"
+                                                   aria-hidden="true">
+                                                </i>
+
+                                                Remove
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="bg-white
+                        shadow-sm
+                        p-4"
+                         style="border-radius: 18px;">
+
+                        <h4 class="fw-bold mb-4"
+                            style="color: #2d3436;">
+
+                            Order Summary
+
+                        </h4>
+
+                        <div class="d-flex
+                            justify-content-between
+                            mb-3">
+
+                            <span class="text-muted">
+                                Total Quantity
+                            </span>
+
+                            <strong>
+                                @Model.TotalQuantity
+                            </strong>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex
+                            justify-content-between
+                            align-items-center
+                            mb-4">
+
+                            <span class="fw-bold">
+                                Subtotal
+                            </span>
+
+                            <span class="fw-bold"
+                                  style="font-size: 1.35rem;
+                                color: #5f27cd;">
+
+                                @Model.Subtotal.ToString("N2")
+                                EGP
+
+                            </span>
+
+                        </div>
+
+                        <div class="alert alert-light
+                            border
+                            small"
+                             role="note">
+
+                            <i class="bi bi-info-circle me-1"
+                               aria-hidden="true">
+                            </i>
+
+                            Product prices and stock are validated
+                            again by the server whenever the cart
+                            is updated.
+
+                        </div>
+
+                        <a asp-controller="Home"
+                           asp-action="Products"
+                           class="btn
+                            w-100
+                            py-2
+                            text-white
+                            mb-2"
+                           style="background:
+                            linear-gradient(
+                            45deg,
+                            #5f27cd,
+                            #341f97);
+                            border: none;
+                            border-radius: 10px;
+                            font-weight: 600;">
+
+                            Continue Shopping
+
+                        </a>
+
+                        <form asp-controller="Cart"
+                              asp-action="Clear"
+                              method="post">
+
+                            <button type="submit"
+                                    class="btn
+                                btn-outline-danger
+                                w-100">
+
+                                <i class="bi bi-trash3 me-1"
+                                   aria-hidden="true">
+                                </i>
+
+                                Clear Cart
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>

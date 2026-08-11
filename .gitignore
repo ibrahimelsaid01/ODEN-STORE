@@ -1,0 +1,81 @@
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Build results
+# =========================
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# =========================
+# Publish output
+# =========================
+publish/
+Publish/
+*.pubxml.user
+
+# =========================
+# .NET
+# =========================
+artifacts/
+TestResults/
+*.nupkg
+*.snupkg
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+Logs/
+
+# =========================
+# Local databases
+# =========================
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Secrets / local environment
+# =========================
+.env
+.env.*
+secrets.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# IDEs / editors
+# =========================
+.idea/
+.vscode/
+*.code-workspace
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.bak
+*.cache
+~$*

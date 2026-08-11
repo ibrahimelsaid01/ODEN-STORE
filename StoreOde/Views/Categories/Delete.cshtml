@@ -1,0 +1,263 @@
+﻿@model StoreOde.Models.Category
+
+@{
+    ViewData["Title"] = "Delete Category";
+
+    var categoryName =
+        string.IsNullOrWhiteSpace(Model.Name)
+            ? $"Category #{Model.Id}"
+            : Model.Name.Trim();
+
+    var description =
+        string.IsNullOrWhiteSpace(Model.Description)
+            ? null
+            : Model.Description.Trim();
+
+    var iconClass =
+        string.IsNullOrWhiteSpace(Model.IconClass)
+            ? null
+            : Model.IconClass.Trim();
+}
+
+<div class="container"
+     data-aos="fade-up">
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-8 col-lg-9">
+
+            <div class="mb-4">
+
+                <a asp-area=""
+                   asp-controller="Categories"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+
+                    <i class="bi bi-arrow-left me-1"
+                       aria-hidden="true">
+                    </i>
+
+                    Back to Categories
+
+                </a>
+
+            </div>
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-header bg-danger text-white py-3">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <i class="bi bi-exclamation-triangle-fill"
+                           aria-hidden="true"
+                           style="font-size: 1.8rem;">
+                        </i>
+
+                        <div>
+
+                            <h1 class="h4 mb-1">
+                                Delete Category
+                            </h1>
+
+                            <p class="mb-0">
+                                This is a destructive operation.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="alert alert-danger"
+                         role="alert">
+
+                        <h2 class="h5 alert-heading">
+                            Are you sure you want to delete
+                            @categoryName?
+                        </h2>
+
+                        <p class="mb-2">
+                            If deletion succeeds, this category will
+                            be permanently removed from the catalog.
+                        </p>
+
+                        <p class="mb-0">
+                            The server will reject the deletion if
+                            any products are still assigned to this
+                            category.
+                        </p>
+
+                    </div>
+
+                    <div class="card bg-light border-0 mb-4">
+
+                        <div class="card-body">
+
+                            <h2 class="h5 mb-4">
+                                Category Summary
+                            </h2>
+
+                            <div class="row g-4">
+
+                                <div class="col-md-6">
+
+                                    <div class="small text-muted mb-1">
+                                        Category
+                                    </div>
+
+                                    <div class="fw-semibold">
+                                        @categoryName
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="small text-muted mb-1">
+                                        Category ID
+                                    </div>
+
+                                    <div>
+                                        @Model.Id
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <div class="small text-muted mb-1">
+                                        Description
+                                    </div>
+
+                                    @if (description is null)
+                                    {
+                                        <span class="text-muted">
+                                            No description provided.
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <div style="white-space: pre-wrap;">
+                                            @description
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="small text-muted mb-1">
+                                        Icon
+                                    </div>
+
+                                    @if (iconClass is null)
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Not configured
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex
+                                            align-items-center
+                                            gap-2">
+
+                                            <i class="@iconClass"
+                                               aria-hidden="true"
+                                               style="font-size: 1.4rem;">
+                                            </i>
+
+                                            <code>
+                                                @iconClass
+                                            </code>
+
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="alert alert-warning"
+                         role="alert">
+
+                        <div class="d-flex gap-2">
+
+                            <i class="bi bi-shield-exclamation"
+                               aria-hidden="true">
+                            </i>
+
+                            <div>
+
+                                <strong>
+                                    Check product assignments first.
+                                </strong>
+
+                                If products still belong to this
+                                category, move them to another category
+                                before trying to delete it.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <form method="post"
+                          asp-area=""
+                          asp-controller="Categories"
+                          asp-action="Delete"
+                          asp-route-id="@Model.Id">
+
+                        <input type="hidden"
+                               asp-for="Id">
+
+                        <div class="d-flex
+                            flex-column-reverse
+                            flex-sm-row
+                            justify-content-end
+                            gap-2
+                            mt-4">
+
+                            <a asp-area=""
+                               asp-controller="Categories"
+                               asp-action="Details"
+                               asp-route-id="@Model.Id"
+                               class="btn btn-outline-secondary px-4">
+
+                                Cancel
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-danger px-4">
+
+                                <i class="bi bi-trash me-1"
+                                   aria-hidden="true">
+                                </i>
+
+                                Permanently Delete Category
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

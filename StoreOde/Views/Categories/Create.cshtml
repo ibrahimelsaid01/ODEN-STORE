@@ -1,0 +1,219 @@
+﻿@model StoreOde.Models.Category
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<div class="container"
+     data-aos="fade-up">
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-8 col-lg-9">
+
+            <div class="d-flex
+                flex-column
+                flex-md-row
+                justify-content-between
+                align-items-md-center
+                gap-3
+                mb-4">
+
+                <div>
+
+                    <h1 class="h2 mb-1"
+                        style="color: #341f97;">
+                        Create Category
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Add a new category for organizing products
+                        in the store catalog.
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <a asp-area=""
+                       asp-controller="Categories"
+                       asp-action="Index"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-left me-1"
+                           aria-hidden="true">
+                        </i>
+
+                        Back to Categories
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <form method="post"
+                          asp-area=""
+                          asp-controller="Categories"
+                          asp-action="Create">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger"
+                             role="alert">
+                        </div>
+
+                        <div class="row g-4">
+
+                            <div class="col-12">
+
+                                <label asp-for="Name"
+                                       class="form-label fw-semibold">
+
+                                    Category Name
+
+                                    <span class="text-danger"
+                                          aria-hidden="true">
+                                        *
+                                    </span>
+
+                                </label>
+
+                                <input asp-for="Name"
+                                       class="form-control"
+                                       maxlength="@Category.NameMaxLength"
+                                       autocomplete="off"
+                                       placeholder="Enter category name"
+                                       required>
+
+                                <span asp-validation-for="Name"
+                                      class="text-danger small">
+                                </span>
+
+                                <div class="form-text">
+                                    Maximum @Category.NameMaxLength characters.
+                                </div>
+
+                            </div>
+
+                            <div class="col-12">
+
+                                <label asp-for="Description"
+                                       class="form-label fw-semibold">
+                                    Description
+                                </label>
+
+                                <textarea asp-for="Description"
+                                          class="form-control"
+                                          rows="5"
+                                          maxlength="@Category.DescriptionMaxLength"
+                                          placeholder="Describe this category">
+                                </textarea>
+
+                                <span asp-validation-for="Description"
+                                      class="text-danger small">
+                                </span>
+
+                                <div class="form-text">
+                                    Maximum @Category.DescriptionMaxLength characters.
+                                </div>
+
+                            </div>
+
+                            <div class="col-12">
+
+                                <label asp-for="IconClass"
+                                       class="form-label fw-semibold">
+                                    Bootstrap Icon Class
+                                </label>
+
+                                <input asp-for="IconClass"
+                                       class="form-control"
+                                       maxlength="@Category.IconClassMaxLength"
+                                       autocomplete="off"
+                                       placeholder="bi bi-tag">
+
+                                <span asp-validation-for="IconClass"
+                                      class="text-danger small">
+                                </span>
+
+                                <div class="form-text">
+                                    Enter a Bootstrap Icons class,
+                                    for example:
+                                    <code>bi bi-tag</code>,
+                                    <code>bi bi-bag</code>,
+                                    or
+                                    <code>bi bi-stars</code>.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="alert alert-info mt-4 mb-0"
+                             role="note">
+
+                            <div class="d-flex gap-2">
+
+                                <i class="bi bi-info-circle-fill"
+                                   aria-hidden="true">
+                                </i>
+
+                                <div>
+
+                                    <strong>
+                                        Category names must be unique.
+                                    </strong>
+
+                                    Products can be assigned to this
+                                    category after it has been created.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-flex
+                            flex-column-reverse
+                            flex-sm-row
+                            justify-content-end
+                            gap-2">
+
+                            <a asp-area=""
+                               asp-controller="Categories"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary px-4">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn text-white px-4"
+                                    style="background: #5f27cd;">
+
+                                <i class="bi bi-plus-lg me-1"
+                                   aria-hidden="true">
+                                </i>
+
+                                Create Category
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
