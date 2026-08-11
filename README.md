@@ -1,8 +1,4 @@
-<img width="1920" height="1080" alt="Screenshot 2026-08-11 153133" src="https://github.com/user-attachments/assets/0f5f65d3-ede1-4a23-bc6e-8afbdbfcb4f6" /># ODEN STORE
-
-
-
-
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153111" src="https://github.com/user-attachments/assets/2e6429f2-b94c-4dd0-883c-75262eed75ee" />
 
 
 ODEN STORE is an ASP.NET Core MVC e-commerce application for browsing and managing sportswear products. It combines a public product catalog, authenticated shopping cart and review features, ASP.NET Core Identity, SQL Server persistence, and role-protected product and category administration.
@@ -1005,9 +1001,6 @@ Sensitive values should be stored using:
 
 
 
-## Screenshots
-
-
 
 ## Screenshots
 
@@ -1015,6 +1008,8 @@ Sensitive values should be stored using:
 
 <img width="1920" height="1080" alt="Screenshot 2026-08-11 153111" src="https://github.com/user-attachments/assets/2e6429f2-b94c-4dd0-883c-75262eed75ee" />
 
+### Brands Catalog
+<img width="1920" height="1080" alt="Screenshot 2026-08-11 153133" src="https://github.com/user-attachments/assets/0f5f65d3-ede1-4a23-bc6e-8afbdbfcb4f6" /># ODEN STORE
 ### Product Catalog
 
 <img width="1920" height="1080" alt="Screenshot 2026-08-11 153254" src="https://github.com/user-attachments/assets/29c755d5-a3c1-4571-8056-ecc3edfae9cb" />
